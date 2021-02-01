@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function usage(){
+  echo -e "error\ncurrect usage: \n./problem (name) -l (lang)"
+}
+
+if [ $# -eq 1 ]; then
+  mkdir $1
+  cd $1
+  exit 0
+fi
+
+if [ $# -eq 3 ]; then
+  if [ $2 == "-l" ]; then
+    mkdir $1
+    touch "$1/main.$3"
+    cd $1
+    exit 0
+  fi
+  echo -e "$(usage)"
+  exit 1
+fi
+
+echo -e "$(usage)"

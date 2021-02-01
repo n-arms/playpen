@@ -4,6 +4,21 @@ function usage(){
   echo -e "error\ncurrect usage: \n./problem (name) -l (lang)"
 }
 
+function openFile(){
+  if test ".problemconfig"; then
+    re='^defaultapp:'
+    while read line; do
+      if [[ $line =~ $re ]]; then
+        open -a"${line:12}" $1
+        break
+      fi
+    done <.problemconfig
+  else
+    echo "missing .problemconfig"
+    exit 1
+  fi
+}
+
 if [ $# -eq 1 ]; then
   mkdir $1
   exit 0
@@ -12,31 +27,62 @@ fi
 if [ $# -eq 3 ]; then
   if [ $2 == "-l" ]; then
     mkdir $1
-    #touch "$1/main.$3"
-    #if [ $3 == "cpp" ]; then
-      #touch "$1/makefile"
-      #echo -e "bin: main.cpp\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp" >> "$1/makefile"
-    #fi
-    #exit 0
 
     case $3 in
-
       cpp)
-      touch "$1/makefile"
-      touch "$1/main.cpp"
-      echo -e "bin: main.cpp\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp" >> "$1/makefile"
-      echo -e "#include <iostream>\n\nint main(){\n\treturn 0;\n}" >> "$1/main.cpp"
+      #touch "$1/makefile"
+      #touch "$1/main.cpp"
+      #echo -e "bin: main.cpp\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp" >> "$1/makefile"
+      #echo -e "#include <iostream>\n\nint main(){\n\treturn 0;\n}" >> "$1/main.cpp"
+      if test ".problemconfig"; then
+        re='^cpp:'
+        while read line; do
+          if [[ $line =~ $re ]]; then
+            touch "$1/${line:5}"
+            openFile "$1/${line:5}"
+            break
+          fi
+        done <.problemconfig
+      else
+        echo "missing .problemconfig"
+        exit 1
+      fi
       exit 0
       ;;
 
-      py)
-      touch "$1/main.py"
+      python)
+      if test ".problemconfig"; then
+        re='^python:'
+        while read line; do
+          if [[ $line =~ $re ]]; then
+            touch "$1/${line:8}"
+            openFile "$1/${line:8}"
+            break
+          fi
+        done <.problemconfig
+      else
+        echo "missing .problemconfig"
+        exit 1
+      fi
       exit 0
       ;;
 
       java)
-      touch "$1/Main.java"
-      echo -e "public class Main{\n\t\n}" >> "$1/Main.java"
+      if test ".problemconfig"; then
+        re='^java:'
+        while read line; do
+          if [[ $line =~ $re ]]; then
+            touch "$1/${line:6}"
+            openFile "$1/${line:6}"
+            break
+          fi
+        done <.problemconfig
+      else
+        echo "missing .problemconfig"
+        exit 1
+      fi
+      #touch "$1/Main.java"
+      #echo -e "public class Main{\n\t\n}" >> "$1/Main.java"
       exit 0
       ;;
 

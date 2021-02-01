@@ -1,0 +1,5 @@
+problemconfig
+defaultapp: atom
+java: Main.java
+cpp: main.cpp
+python: main.py

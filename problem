@@ -6,7 +6,6 @@ function usage(){
 
 if [ $# -eq 1 ]; then
   mkdir $1
-  cd $1
   exit 0
 fi
 
@@ -14,7 +13,10 @@ if [ $# -eq 3 ]; then
   if [ $2 == "-l" ]; then
     mkdir $1
     touch "$1/main.$3"
-    cd $1
+    if [ $3 == "cpp" ]; then
+      touch "$1/makefile"
+      echo -e "bin: main.cpp\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp" >> "$1/makefile"
+    fi
     exit 0
   fi
   echo -e "$(usage)"

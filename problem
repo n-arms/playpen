@@ -30,10 +30,8 @@ if [ $# -eq 3 ]; then
 
     case $3 in
       cpp)
-      #touch "$1/makefile"
-      #touch "$1/main.cpp"
-      #echo -e "bin: main.cpp\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp" >> "$1/makefile"
-      #echo -e "#include <iostream>\n\nint main(){\n\treturn 0;\n}" >> "$1/main.cpp"
+      touch "$1/makefile"
+      echo -e "bin: main.cpp\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp" >> "$1/makefile"
       if test ".problemconfig"; then
         re='^cpp:'
         while read line; do
@@ -81,8 +79,6 @@ if [ $# -eq 3 ]; then
         echo "missing .problemconfig"
         exit 1
       fi
-      #touch "$1/Main.java"
-      #echo -e "public class Main{\n\t\n}" >> "$1/Main.java"
       exit 0
       ;;
 

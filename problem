@@ -24,13 +24,20 @@ function openFile(){ #file
 function writeFile(){ #folder #language
   if test ".problemconfig"; then
     re="$2: ([^ ]+) ([^:]*):"
+    cppfile="[^\.]+\.([^:]+)"
     file=$(<".problemconfig")
     if [[ $file =~ $re ]]; then
+      mainprog="${BASH_REMATCH[1]}"
       mkdir "$1"
-      touch "$1/${BASH_REMATCH[1]}"
-      echo "${BASH_REMATCH[2]}" > "$1/${BASH_REMATCH[1]}"
-      openFile "$1/${BASH_REMATCH[1]}"
-      exit 0
+      touch "$1/$mainprog"
+      echo "${BASH_REMATCH[2]}" > "$1/$mainprog"
+      if [[ $mainprog =~ $cppfile ]]; then
+        touch "$1/makefile"
+        echo -e "bin: $mainprog\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin $mainprog" > "$1/makefile"
+      else
+        echo "no makefile generated"
+      fi
+      openFile "$1/$mainprog"
     else
       echo "fnf in .problemconfig"
       exit 1

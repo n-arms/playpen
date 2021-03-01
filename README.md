@@ -12,9 +12,7 @@ This will create a new folder called problemname, with files in it that are need
 Additionally, it opens up the most relevant file in the default text editor.
 
 ## default support
-The following settings are in place by default:
-
-atom is the default text editor, and language support is proved for:
+By default, atom is the default text editor, and language support is proved for:
 
 #### java
 Creates a Main.java file and inserts:
@@ -36,9 +34,33 @@ print("hello, world!")
 Creates a main.cpp file and inserts
 ```cpp
 #include <iostream>
+
 int main(){
   return 0;
 }
+```
+
+And adds a makefile with
+```makefile
+bin: main.cpp
+  gcc -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp
+```
+
+#### c
+Creates a main.c file and inserts
+```c
+#include <stdio.h>
+
+int main(){
+
+}
+```
+
+And adds a makefile with
+```makefile
+bin: main.c
+  cc -std=c99 -o bin main.c
+
 ```
 
 ## customization
@@ -84,7 +106,7 @@ For example, to add haskell support you might add the following to your config.j
     ...,
     "haskell": [
       {
-        "filename": "main.hs"
+        "filename": "main.hs",
         "contents": "main = putStrLn \"hello, world\""
       }
     ],

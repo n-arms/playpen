@@ -20,7 +20,17 @@
       },
       {
         "filename": "makefile",
-        "contents": "bin: main.cpp\n\tgcc -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp"
+        "contents": "bin: main.cpp\n\tg++ -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp"
+      }
+    ],
+    "c": [
+      {
+        "filename": "main.c",
+        "contents": "#include <stdio.h>\n\nint main(){\n\t\n}"
+      },
+      {
+        "filename": "makefile",
+        "contents": "bin: main.c\n\tcc -std=c99 -o bin main.c"
       }
     ]
   }

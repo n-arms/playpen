@@ -1,5 +1,0 @@
-problemconfig
-defaultapp: atom:
-java: Main.java public class main{}:
-cpp: main.cpp int main(){return 0;}:
-python: main.py :

@@ -13,34 +13,33 @@ Additionally, it opens up the most relevant file in the default text editor.
 
 ## default support
 The following settings are in place by default:
-* atom is the default text editor
-* language support for:
-  * java
-    * creates a Main.java file
-    * inserts:
-    ```java
-    public class Main{
-        public static void main(String[] args){
 
-        }
-    }
-    ```
-  * python
-    * creates a main.py file
-    * inserts
-    ```python
-    print("hello, world!")
-    ```
+atom is the default text editor, and language support is proved for:
 
-  * c++
-    * creates a main.cpp file
-    * inserts
-    ```cpp
-    #include <iostream>
-    int main(){
-      return 0;
+#### java
+Creates a Main.java file and inserts:
+```java
+public class Main{
+    public static void main(String[] args){
+
     }
-    ```
+}
+```
+
+#### python
+Creates a main.py file and inserts
+```python
+print("hello, world!")
+```
+
+#### c++
+Creates a main.cpp file and inserts
+```cpp
+#include <iostream>
+int main(){
+  return 0;
+}
+```
 
 ## customization
 Although a decent amount of functionality is provided out of the box, It is very easy to add new languages.
@@ -50,20 +49,45 @@ All customization should be done in config.json. It uses the following syntax:
 {
   "default-app": "<default text editor>",
   "languages": {
-    "<lang 1>": [
-      "<file 1>",
-      "<file 2>",
-      ...
-      "<file n>"
-    ]
+    "<lang name 1>": "files 1",
+    "<lang name 2>": "files 2",
+    ...
+    "<lang name n>": "files n"
   }
 }
 ```
 
-Where each file follows the syntax:
+Where each group of files follows the syntax:
+```json
+[
+  "<file 1>",
+  "<file 2>",
+  ...
+  "<file n>"
+]
+```
+
+And each file:
 ```json
 {
-  "filename": "name of file to be created",
-  "contents": "contents of file to be created"
+  "filename": "<name of file to be created>",
+  "contents": "<contents of file to be created>"
 }
 ```
+
+For example, to add haskell support you might add the following to your config.json:
+
+```json
+{
+  "default-app": "...",
+  "languages": {
+    ...,
+    "haskell": [
+      {
+        "filename": "main.hs"
+        "contents": "main = putStrLn \"hello, world\""
+      }
+    ],
+    ...
+  }
+}

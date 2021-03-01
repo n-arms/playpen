@@ -17,6 +17,10 @@
       {
         "filename": "main.cpp",
         "contents": "#include <iostream>\n\nint main(){\n\t\n}"
+      },
+      {
+        "filename": "makefile",
+        "contents": "bin: main.cpp\n\tgcc -std=c++11 -Wall -Wextra -pedantic -O2 -o bin main.cpp"
       }
     ]
   }

@@ -3,10 +3,10 @@ A bash script to help practice competitive programming. When practicing problems
 
 ## installing
 * either unzip the code file into a directory you want to have this functionality in, or use git clone.
-* run ```chmod +x problem```
+* run ```chmod +x problem.py```
 
 ## usage
-To run this code, simple use ```./problem problemname language```\
+To run this code, simple use ```./problem.py problemname language```\
 This will create a new folder called problemname, with files in it that are needed to develop a small, single file project in that language.
 
 Additionally, it opens up the most relevant file in the default text editor.

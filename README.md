@@ -24,6 +24,12 @@ public class Main{
 }
 ```
 
+And adds a makefile with
+```makefile
+Main.class: Main.java
+  javac Main.java
+```
+
 #### python
 Creates a main.py file and inserts
 ```python
@@ -63,6 +69,12 @@ bin: main.c
 
 ```
 
+#### bash
+Creates a main.sh file and inserts
+```bash
+#!/usr/bin/env bash
+```
+
 ## customization
 Although a decent amount of functionality is provided out of the box, It is very easy to add new languages.
 
@@ -73,7 +85,7 @@ All customization should be done in config.json. It uses the following syntax:
   "languages": {
     "<lang name 1>": "files 1",
     "<lang name 2>": "files 2",
-    ...
+    "..."
     "<lang name n>": "files n"
   }
 }
@@ -84,7 +96,7 @@ Where each group of files follows the syntax:
 [
   "<file 1>",
   "<file 2>",
-  ...
+  "...",
   "<file n>"
 ]
 ```
@@ -103,13 +115,13 @@ For example, to add haskell support you might add the following to your config.j
 {
   "default-app": "...",
   "languages": {
-    ...,
+    "...,"
     "haskell": [
       {
         "filename": "main.hs",
         "contents": "main = putStrLn \"hello, world\""
       }
     ],
-    ...
+    "..."
   }
 }

@@ -5,6 +5,10 @@
       {
         "filename": "Main.java",
         "contents": "public class Main{\n\tpublic static void main(String[] args){\n\t\t\n\t}\n}"
+      },
+      {
+        "filename": "makefile",
+        "contents": "Main.class: Main.java\n\tjavac Main.java"
       }
     ],
     "python": [
@@ -31,6 +35,12 @@
       {
         "filename": "makefile",
         "contents": "bin: main.c\n\tcc -std=c99 -o bin main.c"
+      }
+    ],
+    "bash": [
+      {
+        "filename": "main.sh",
+        "contents": "#!/usr/bin/env bash"
       }
     ]
   }

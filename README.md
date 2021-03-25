@@ -1,5 +1,7 @@
-# prog-contest-tool
-A bash script to help practice competitive programming. When practicing problems I find myself spending way too much time creating a new project folder, adding all the necessary files, writing a makefile, etc.
+# playpen
+Pull up a cookie-cutter file layout for a small project, get rid of it easily.
+
+Playpen is designed to act like a scratchpad for programming ideas, pull up a preset project architecture, write a little bit of code to see how an idea works, and save it if you want to keep it.
 
 ## installing
 * either unzip the code file into a directory you want to have this functionality in, or use git clone.

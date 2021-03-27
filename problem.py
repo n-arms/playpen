@@ -3,6 +3,7 @@ import sys, commands
 
 def parse_args():
     args = sys.argv[1:]
+    print(args)
     flags = set()
     for i in range(len(args)-1, -1, -1):
         if args[i][0] == '-':

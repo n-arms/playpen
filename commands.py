@@ -1,41 +1,90 @@
-import os, subprocess, queue
+import os, subprocess, queue, shutil
 
-class CallStack:
-    to_call = queue.Queue()
+class CallQueue:
+    def __init__(self, args):
+        self.to_call = queue.Queue()
+        self.args = args
 
-    @staticmethod
-    def add(code):
-        CallStack.to_call.put(code)
+    def add(self, code):
+        self.to_call.put(code)
 
-    @staticmethod
-    def run():
-        while not CallStack.to_call.empty():
-            CallStack.to_call.get()()
-
+    def run(self):
+        while not self.to_call.empty():
+             self.args = self.to_call.get()(self.args)
 
 def make_playpen(flags, args):
+    def git_wrapper(args):
+        os.chdir('.playpen')
+        subprocess.call(['git', 'init'])
+        os.chdir('..')
+        return args
+
+    def playpen_init_wrapper(args):
+        print("calling mkdir")
+        os.mkdir(os.getcwd()+'/.playpen')
+        return args
+
+    def template_loader_wrapper(args):
+        print("NOT YET IMPLEMENTED,\nsheesh im only 1 person, what do you expect from me")
+        return args
+
+    def template_file_loader_wrapper(args):
+        print("NOT YET IMPLEMENTED,\nsheesh im only 1 person, what do you expect from me")
+        return args
+
+
+    c = CallQueue(args)
+
+    c.add(playpen_init_wrapper)
+    if len(args) >= 1:
+        c.add(template_loader_wrapper)
 
     if 'f' in flags:
         flags.remove('f')
+        c.add(template_file_loader_wrapper)
         if len(args) == 0:
             print("not enough arguments, remove -f or add template name")
             return
         elif len(args) > 1:
             print("too many arguments, remove", args[1:])
             return
-        else:
-            os.mkdir('.playpen')
 
-            if 'g' in flags:
-                flags.remove('g')
-                subprocess.call(['git', 'init'])
+    if 'g' in flags:
+        flags.remove('g')
+        c.add(git_wrapper)
+
+    if len(flags) > 0:
+        print("illegal flags")
+        return
+    c.run()
+
 
 
 def save_playpen(flags, args):
-    pass
+    def copy_wrapper(args):
+        shutil.copytree(os.getcwd()+"/.playpen", os.getcwd()+"/"+args[0])
+        return args
+
+    c = CallQueue(args)
+    c.add(copy_wrapper)
+
+    if len(flags) != 0 or len(args) != 1:
+        print("illegal input")
+        return
+    c.run()
+    return
 
 def del_playpen(flags, args):
-    pass
+    def del_wrapper(args):
+        shutil.rmtree(os.getcwd()+"/.playpen")
+    c = CallQueue(args)
+    c.add(del_wrapper)
+
+    if len(flags) != 0 or len(args) != 0:
+        print("illegal input")
+        return
+    c.run()
+    return
 
 def template_playpen(flags, args):
     pass

@@ -1,2 +1,2 @@
-import problem
+import problem, sys
 problem.main()

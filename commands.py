@@ -1,4 +1,4 @@
-import os, subprocess, queue, shutil
+import os, subprocess, queue, shutil, sys
 
 class CallQueue:
     def __init__(self, args):
@@ -58,11 +58,9 @@ def make_playpen(flags, args):
         return
     c.run()
 
-
-
 def save_playpen(flags, args):
     def copy_wrapper(args):
-        shutil.copytree(os.getcwd()+"/.playpen", os.getcwd()+"/"+args[0])
+        shutil.copytree(os.path.join(os.getcwd(), ".playpen"), os.path.join(os.getcwd(), args[0]))
         return args
 
     c = CallQueue(args)
@@ -76,7 +74,7 @@ def save_playpen(flags, args):
 
 def del_playpen(flags, args):
     def del_wrapper(args):
-        shutil.rmtree(os.getcwd()+"/.playpen")
+        shutil.rmtree(os.path.join(os.getcwd(), ".playpen"))
     c = CallQueue(args)
     c.add(del_wrapper)
 
@@ -87,4 +85,15 @@ def del_playpen(flags, args):
     return
 
 def template_playpen(flags, args):
-    pass
+    def template_saver_wrapper(args):
+        with open(os.path.join(os.getcwd(), sys.path[0], "templates.txt"), "a") as templates:
+            templates.write(args[0]+": "+os.path.join(os.getcwd(), ".playpen")+"\n")
+
+    c = CallQueue(args)
+    c.add(template_saver_wrapper)
+
+    if len(flags) != 0 or len(args) != 1:
+        print('illegal input')
+        return
+    c.run()
+    return

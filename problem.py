@@ -12,25 +12,11 @@ def load_json():
         return json.load(config_json_file)
 
 def parse_args(config):
-    for i in sys.argv:
-        if i in config["languages"]:
-            lang = i
-        else:
-            name = i
-    return (lang, name)
-
-def main():
-    config = load_json()
-    lang, name = parse_args(config)
-    if (name is None or lang is None):
-        usage()
-        return
-
-    os.mkdir(name)
-    for file_pattern in config["languages"][lang]:
-        with open(name+"/"+file_pattern["filename"], "w") as current_file:
-            current_file.write(file_pattern["contents"])
-
-    open_file(name, lang, config)
-
-main()
+    args = sys.argv[1:]
+    flags = set()
+    for i in range(len(args)-1, -1, -1):
+        if args[i][0] == '-':
+            flags.update([j for j in args[i][1:]])
+            args.pop(i)
+    print("args:", args)
+    print("flags:", flags)

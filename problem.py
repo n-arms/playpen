@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
-import os, sys, json, subprocess
+import sys, commands
 
-def usage():
-    print("usage: problem <problemname> <language>")
-
-def open_file(name, lang, config):
-    subprocess.run(["open", "-a", config["default-app"], name+"/"+config["languages"][lang][0]["filename"]])
-
-def load_json():
-    with open("config.json") as config_json_file:
-        return json.load(config_json_file)
-
-def parse_args(config):
+def parse_args():
     args = sys.argv[1:]
     flags = set()
     for i in range(len(args)-1, -1, -1):
         if args[i][0] == '-':
             flags.update([j for j in args[i][1:]])
             args.pop(i)
-    print("args:", args)
-    print("flags:", flags)
+    return {"flags": flags, "mode": args[0], "args": args[1:]}
+
+def main():
+    args = parse_args()
+    if args["mode"] == "make":
+        commands.make_playpen(args["flags"], args["args"])
+    elif args["mode"] == "save":
+        commands.save_playpen(args["flags"], args["args"])
+    elif args["mode"] == "del":
+        commands.del_playpen(args["flags"], args["args"])
+    elif args["mode"] == "template":
+        commands.template_playpen(args["flags"], args["args"])

@@ -1,4 +1,4 @@
-import os, subprocess, queue, shutil, sys
+import os, subprocess, queue, shutil, sys, re
 
 class CallQueue:
     def __init__(self, args):
@@ -12,6 +12,12 @@ class CallQueue:
         while not self.to_call.empty():
              self.args = self.to_call.get()(self.args)
 
+def tree_walk(root):
+    for dir in os.listdir(root):
+        if os.path.isfile(os.path.join(os.getcwd(), dir)):
+            print("file: ", dir)
+        template_loader_wrapper([dir])
+
 def make_playpen(flags, args):
     def git_wrapper(args):
         os.chdir('.playpen')
@@ -21,33 +27,25 @@ def make_playpen(flags, args):
 
     def playpen_init_wrapper(args):
         print("calling mkdir")
-        os.mkdir(os.getcwd()+'/.playpen')
+        os.mkdir(os.path.join(os.getcwd(), '.playpen'))
         return args
 
     def template_loader_wrapper(args):
-        print("NOT YET IMPLEMENTED,\nsheesh im only 1 person, what do you expect from me")
+        with open(os.path.join(os.getcwd(), sys.path[0], "templates.txt"), 'r') as templates:
+            pattern = f'{args[0]}: ([^\\n]+)$'
+            for line in templates:
+                result = re.search(pattern, line)
+                if result != None:
+                    os.rmdir(os.path.join(os.getcwd(), '.playpen'))
+                    shutil.copytree(result.group(1), os.path.join(os.getcwd(), ".playpen")) 
+                    return args
         return args
-
-    def template_file_loader_wrapper(args):
-        print("NOT YET IMPLEMENTED,\nsheesh im only 1 person, what do you expect from me")
-        return args
-
 
     c = CallQueue(args)
 
     c.add(playpen_init_wrapper)
     if len(args) >= 1:
         c.add(template_loader_wrapper)
-
-    if 'f' in flags:
-        flags.remove('f')
-        c.add(template_file_loader_wrapper)
-        if len(args) == 0:
-            print("not enough arguments, remove -f or add template name")
-            return
-        elif len(args) > 1:
-            print("too many arguments, remove", args[1:])
-            return
 
     if 'g' in flags:
         flags.remove('g')

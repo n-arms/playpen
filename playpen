@@ -21,3 +21,5 @@ def main():
         commands.del_playpen(args["flags"], args["args"])
     elif args["mode"] == "template":
         commands.template_playpen(args["flags"], args["args"])
+
+main()
